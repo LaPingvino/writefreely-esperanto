@@ -22,13 +22,13 @@ td.none {
 	{{end}}
 	<h2 id="posts-header">{{if .Collection}}{{.Collection.DisplayTitle}} {{end}}Stats</h2>
 
-	<p>Stats for all time.</p>
+	<p>Statistikoj de ĉiam.</p>
 	
 	{{if .Federation}}
-	<h3>Fediverse stats</h3>
+	<h3>Federacio-statistikoj</h3>
 	<table id="fediverse" class="classy export">
 		<tr>
-			<th>Followers</th>
+			<th>Sekvantoj</th>
 		</tr>
 		<tr>
 			<td>{{.APFollowers}}</td>
@@ -36,16 +36,16 @@ td.none {
 	</table>
 	{{end}}
 
-	<h3>Top {{len .TopPosts}} posts</h3>
+	<h3>La {{len .TopPosts}} supraj afiŝoj</h3>
 	<table class="classy export">
 		<tr>
-			<th>Post</th>
-			{{if not .Collection}}<th>Blog</th>{{end}}
-			<th class="num">Total Views</th>
+			<th>Afiŝo</th>
+			{{if not .Collection}}<th>Blogo</th>{{end}}
+			<th class="num">Entuta kvanto da vidoj</th>
 		</tr>
 		{{range .TopPosts}}<tr>
 			<td style="word-break: break-all;"><a href="{{if .Collection}}{{.Collection.CanonicalURL}}{{.Slug.String}}{{else}}/{{.ID}}{{end}}">{{if ne .Title.String ""}}{{.Title.String}}{{else}}<em>{{.ID}}</em>{{end}}</a></td>
-			{{ if not $.Collection }}<td>{{if .Collection}}<a href="{{.Collection.CanonicalURL}}">{{.Collection.Title}}</a>{{else}}<em>Draft</em>{{end}}</td>{{ end }}
+			{{ if not $.Collection }}<td>{{if .Collection}}<a href="{{.Collection.CanonicalURL}}">{{.Collection.Title}}</a>{{else}}<em>Malneto</em>{{end}}</td>{{ end }}
 			<td class="num">{{.ViewCount}}</td>
 		</tr>{{end}}
 	</table>

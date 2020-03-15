@@ -25,12 +25,10 @@ input[type=text] {
 <div class="snug content-container">
 	{{template "admin-header" .}}
 
-	<h2 id="posts-header">
-{{if eq .Content.ID "landing"}}Hejmpaĝo
-{{else if eq .Content.ID "about"}}Pri-paĝo{{end}}
-{{else if eq .Content.ID "privacy"}}Privateco-paĝo{{end}}
-{{else if eq .Content.ID "reader"}}Legilo-paĝo{{end}}
-	</h2>
+	<h2 id="posts-header">{{if eq .Content.ID "landing"}}Hejmpaĝo
+{{else if eq .Content.ID "about"}}Pri-paĝo
+{{else if eq .Content.ID "privacy"}}Privateco-paĝo
+{{else if eq .Content.ID "reader"}}Legilo-paĝo{{end}}</h2>
 
 	{{if eq .Content.ID "about"}}
 	<p class="page-desc content-desc">Priskribu <a href="/about" target="page">pri kio</a> temas via servilo.</p>

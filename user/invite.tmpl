@@ -31,57 +31,57 @@ table td {
 </style>
 
 <div class="snug content-container">
-	<h1>Invite people</h1>
-	<p>Invite others to join <em>{{.SiteName}}</em> by generating and sharing invite links below.</p>
+	<h1>Inviti homojn</h1>
+	<p>Invitu aliajn por aliĝi al <em>{{.SiteName}}</em> per kreado kaj havigado de invitligiloj de ĉi-malsupre.</p>
 
 	<form style="margin: 2em 0" action="/api/me/invites" method="post">
 		<div class="row">
 			<div class="half">
-				<label for="uses">Maximum number of uses:</label>
+				<label for="uses">Maksimuma kvanto da uzoj:</label>
 				<select id="uses" name="uses">
-					<option value="0">No limit</option>
-					<option value="1">1 use</option>
-					<option value="5">5 uses</option>
-					<option value="10">10 uses</option>
-					<option value="25">25 uses</option>
-					<option value="50">50 uses</option>
-					<option value="100">100 uses</option>
+					<option value="0">Senlime</option>
+					<option value="1">1 uzo</option>
+					<option value="5">5 uzoj</option>
+					<option value="10">10 uzoj</option>
+					<option value="25">25 uzoj</option>
+					<option value="50">50 uzoj</option>
+					<option value="100">100 uzoj</option>
 				</select>
 			</div>
 			<div class="half">
-				<label for="expires">Expire after:</label>
+				<label for="expires">Eksvalidiĝas post:</label>
 				<select id="expires" name="expires">
-					<option value="0">Never</option>
-					<option value="30">30 minutes</option>
-					<option value="60">1 hour</option>
-					<option value="360">6 hours</option>
-					<option value="720">12 hours</option>
-					<option value="1440">1 day</option>
-					<option value="4320">3 days</option>
-					<option value="10080">1 week</option>
+					<option value="0">Neniam</option>
+					<option value="30">30 minutoj</option>
+					<option value="60">1 horo</option>
+					<option value="360">6 horoj</option>
+					<option value="720">12 horoj</option>
+					<option value="1440">1 tago</option>
+					<option value="4320">3 tagoj</option>
+					<option value="10080">1 semajno</option>
 				</select>
 			</div>
 		</div>
 		<div class="row">
-			<input type="submit" value="Generate" />
+			<input type="submit" value="Krei" />
 		</div>
 	</form>
 
 	<table class="classy export">
 		<tr>
-			<th>Link</th>
-			<th>Uses</th>
-			<th>Expires</th>
+			<th>Ligilo</th>
+			<th>Uzoj</th>
+			<th>Eksvalidiĝas</th>
 		</tr>
 		{{range .Invites}}
 		<tr>
 			<td><a href="{{$.Host}}/invite/{{.ID}}">{{$.Host}}/invite/{{.ID}}</a></td>
 			<td>{{.Uses}}{{if gt .MaxUses.Int64 0}} / {{.MaxUses.Int64}}{{end}}</td>
-			<td>{{ if .Expires }}{{if .Expired}}Expired{{else}}{{.ExpiresFriendly}}{{end}}{{ else }}&infin;{{ end }}</td>
+			<td>{{ if .Expires }}{{if .Expired}}Eksvalidiĝis{{else}}{{.ExpiresFriendly}}{{end}}{{ else }}&infin;{{ end }}</td>
 		</tr>
 		{{else}}
 		<tr>
-			<td colspan="3">No invites generated yet.</td>
+			<td colspan="3">Ankoraŭ ne kreis invitilojn.</td>
 		</tr>
 		{{end}}
 	</table>

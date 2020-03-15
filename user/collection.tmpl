@@ -212,7 +212,7 @@ function disableSubmit() {
 	var $form = document.forms['customize-form'];
 	createHidden($form, 'style_sheet', cssEditor.getSession().getValue());
 	var $btn = document.getElementById("save-changes");
-	$btn.value = "Saving changes...";
+	$btn.value = "Konservas ŝanĝojn...";
 	$btn.disabled = true;
 	return true;
 }

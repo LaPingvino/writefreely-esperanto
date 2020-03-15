@@ -1,0 +1,106 @@
+{{define "user-navigation"}}
+	<header class="{{if .SingleUser}}singleuser{{else}}multiuser{{end}}">
+		{{if .SingleUser}}
+		<nav id="user-nav">
+			<nav class="dropdown-nav">
+				<ul><li><a href="/" title="View blog" class="title">{{.SiteName}}</a> <img class="ic-18dp" src="/img/ic_down_arrow_dark@2x.png" />
+					<ul>
+						<li><a href="/me/c/{{.Username}}">Adapti</a></li>
+						<li><a href="/me/c/{{.Username}}/stats">Statistikoj</a></li>
+						<li class="separator"><hr /></li>
+						{{if .IsAdmin}}<li><a href="/admin">Administrejo</a></li>{{end}}
+						<li><a href="/me/settings">Konfiguroj</a></li>
+						<li><a href="/me/export">Eksporti</a></li>
+						<li class="separator"><hr /></li>
+						<li><a href="/me/logout">Elsaluti</a></li>
+					</ul></li>
+				</ul>
+			</nav>
+			<nav class="tabs">
+				<a href="/me/posts/"{{if eq .Path "/me/posts/"}} class="selected"{{end}}>Malnetoj</a>
+				<a href="/me/new">Nova afiŝo</a>
+			</nav>
+		</nav>
+		{{else}}
+		<nav id="full-nav">
+			<div class="left-side">
+				<h1><a href="/" title="Reiri al la redaktilo">{{.SiteName}}</a></h1>
+			</div>
+		<nav id="user-nav">
+			{{if .Username}}
+			<nav class="dropdown-nav">
+				<ul><li><a>{{.Username}}</a> <img class="ic-18dp" src="/img/ic_down_arrow_dark@2x.png" /><ul>
+						{{if .IsAdmin}}<li><a href="/admin">Administra panelo</a></li>{{end}}
+						<li><a href="/me/settings">Kontaj konfiguroj</a></li>
+						<li><a href="/me/export">Eksporti</a></li>
+						{{if .CanInvite}}<li><a href="/me/invites">Inviti homojn</a></li>{{end}}
+						<li class="separator"><hr /></li>
+						<li><a href="/me/logout">Elsaluti</a></li>
+					</ul></li>
+				</ul>
+			</nav>
+			{{end}}
+			<nav class="tabs">
+				{{if .SimpleNav}}
+					{{ if not .SingleUser }}
+					{{if and (and .LocalTimeline .CanViewReader) .Chorus}}<a href="/"{{if eq .Path "/"}} class="selected"{{end}}>Hejmo</a>{{end}}
+					{{ end }}
+					<a href="/about">Pri</a>
+					{{ if not .SingleUser }}
+						{{ if .Username }}
+					{{if gt .MaxBlogs 1}}<a href="/me/c/"{{if eq .Path "/me/c/"}} class="selected"{{end}}>Blogoj</a>{{end}}
+					{{if and .Chorus (eq .MaxBlogs 1)}}<a href="/{{.Username}}/"{{if eq .Path (printf "/%s/" .Username)}} class="selected"{{end}}>Miaj afiŝoj</a>{{end}}
+					{{if not .DisableDrafts}}<a href="/me/posts/"{{if eq .Path "/me/posts/"}} class="selected"{{end}}>Malnetoj</a>{{end}}
+						{{ end }}
+					{{if and (and .LocalTimeline .CanViewReader) (not .Chorus)}}<a href="/read">Legilo</a>{{end}}
+					{{if and (and (and .Chorus .OpenRegistration) (not .Username)) (or (not .Private) (ne .Landing ""))}}<a href="/signup"{{if eq .Path "/signup"}} class="selected"{{end}}>Aliĝi</a>{{end}}
+					{{if .Username}}<a href="/me/logout">Elsaluti</a>{{else}}<a href="/login">Ensaluti</a>{{end}}
+					{{ end }}
+				{{else}}
+					<a href="/me/c/"{{if eq .Path "/me/c/"}} class="selected"{{end}}>Blogoj</a>
+					{{if not .DisableDrafts}}<a href="/me/posts/"{{if eq .Path "/me/posts/"}} class="selected"{{end}}>Malnetoj</a>{{end}}
+					{{if and (and .LocalTimeline .CanViewReader) (not .Chorus)}}<a href="/read">Legilo</a>{{end}}
+				{{end}}
+			</nav>
+		</nav>
+		{{if .Chorus}}{{if .Username}}<div class="right-side">
+					<a class="simple-btn" href="/new">Nova afiŝo</a>
+				</div>{{end}}
+			</nav>
+		{{end}}
+		{{end}}
+	</header>
+{{end}}
+{{define "header"}}<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>{{.PageTitle}} {{if .Separator}}{{.Separator}}{{else}}&mdash;{{end}} {{.SiteName}}</title>
+
+	<link rel="stylesheet" type="text/css" href="/css/write.css" />
+	<link rel="shortcut icon" href="/favicon.ico" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="theme-color" content="#888888" />
+	<meta name="apple-mobile-web-app-title" content="{{.SiteName}}">
+	<link rel="apple-touch-icon" sizes="152x152" href="/img/touch-icon-152.png">
+	<link rel="apple-touch-icon" sizes="167x167" href="/img/touch-icon-167.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/img/touch-icon-180.png">
+</head>
+<body id="me">
+	{{template "user-navigation" .}}
+	<div id="official-writing">
+{{end}}
+
+{{define "admin-header"}}
+<header class="admin">
+	<h1>Admin</h1>
+	<nav id="admin">
+		<a href="/admin" {{if eq .Path "/admin"}}class="selected"{{end}}>Supervido</a>
+		{{if not .SingleUser}}
+		<a href="/admin/users" {{if eq .Path "/admin/users"}}class="selected"{{end}}>Uzantoj</a>
+		<a href="/admin/pages" {{if eq .Path "/admin/pages"}}class="selected"{{end}}>Paĝoj</a>
+		{{end}}
+	</nav>
+</header>
+{{end}}

@@ -1,0 +1,241 @@
+{{define "upgrade"}}
+<p><a href="/me/plan?to=/me/c/{{.Alias}}">Upgrade</a> for <span>$40 / year</span> to edit.</p>
+{{end}}
+
+{{define "collection"}}
+{{template "header" .}}
+
+<div class="content-container snug">
+	<div id="overlay"></div>
+
+	{{if .Suspended}}
+		{{template "user-suspended"}}
+	{{end}}
+	<h2>Adapti {{.DisplayTitle}} <a href="{{if .SingleUser}}/{{else}}/{{.Alias}}/{{end}}">vidi blogon</a></h2>
+
+	{{if .Flashes}}<ul class="errors">
+		{{range .Flashes}}<li class="urgent">{{.}}</li>{{end}}
+	</ul>{{end}}
+
+<form name="customize-form" action="/api/collections/{{.Alias}}" method="post" onsubmit="return disableSubmit()">
+<div id="collection-options">
+	<div style="text-align:center">
+		<h1><input type="text" name="title" id="title" value="{{.DisplayTitle}}" placeholder="Titolo" /></h1>
+		<p><input type="text" name="description" id="description" value="{{.Description}}" placeholder="Priskribo" /></p>
+	</div>
+
+	<div class="option">
+		<h2><a name="preferred-url"></a>Ligilo</h2>
+		<div class="section">
+			{{if eq .Alias .Username}}<p style="font-size: 0.8em">Ĉi tiu blogo uzas vian uzantnomon en ĝia ligilo{{if .Federation}} kaj federacia uzantnomo{{end}}. Vi povas ŝanĝi ĝin en viaj <a href="/me/settings">kontaj konfiguroj</a>.</p>{{end}}
+			<ul style="list-style:none">
+				<li>
+					{{.FriendlyHost}}/<strong>{{.Alias}}</strong>/
+				</li>
+				<li>
+					<strong id="normal-handle-env" class="fedi-handle" {{if not .Federation}}style="display:none"{{end}}>@<span id="fedi-handle">{{.Alias}}</span>@<span id="fedi-domain">{{.FriendlyHost}}</span></strong>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="option">
+		<h2>Videbleco</h2>
+		<div class="section">
+			<ul style="list-style:none">
+				<li>
+					<label><input type="radio" name="visibility" id="visibility-unlisted" value="0" {{if .IsUnlisted}}checked="checked"{{end}} />
+						Nelistigita
+					</label>
+					<p>Ĉi tiu blogo videblas al {{if .Private}}ajna registrita uzanto en ĉi tiu servilo{{else}}iu ajn per ĝia ligilo{{end}}.</p>
+				</li>
+				<li>
+				<label class="option-text"><input type="radio" name="visibility" id="visibility-private" value="2" {{if .IsPrivate}}checked="checked"{{end}} />
+						Privata
+					</label>
+					<p>Nur vi povas legi ĉi tiun blogon (dum vi estas ensalutinta).</p>
+				</li>
+				<li>
+					<label class="option-text"><input type="radio" name="visibility" id="visibility-protected" value="4" {{if .IsProtected}}checked="checked"{{end}} />
+						Pasvort-protektita: <input type="password" class="low-profile" name="password" id="collection-pass" autocomplete="new-password" placeholder="{{if .IsProtected}}xxxxxxxxxxxxxxxx{{else}}memorebla pasvorto{{end}}" />
+					</label>
+					<p>Pasvorto necesas por legi ĉi tiun blogon.</p>
+				</li>
+				{{if not .SingleUser}}
+				<li>
+					<label class="option-text{{if not .LocalTimeline}} disabled{{end}}"><input type="radio" name="visibility" id="visibility-public" value="1" {{if .IsPublic}}checked="checked"{{end}} {{if not .LocalTimeline}}disabled="disabled"{{end}} />
+						Publika
+					</label>
+					{{if .LocalTimeline}}<p>Ĉi tiu blogo estas montrata en la publika <a href="/read">legilo</a>, kaj videblas al {{if .Private}}ajna registrita uzanto en ĉi tiu servilo{{else}}iu ajn per ĝia ligilo{{end}}.</p>
+					{{else}}<p>La publika legilo momente estas malŝaltita por ĉi tiu komunumo.</p>{{end}}
+				</li>
+				{{end}}
+			</ul>
+		</div>
+	</div>
+
+	<div class="option">
+		<h2>Montroformato</h2>
+		<div class="section">
+			<p class="explain">Adapti kiel viaj afiŝoj montriĝas en via paĝo.
+			</p>
+			<ul style="list-style:none">
+				<li>
+					<label><input type="radio" name="format" id="format-blog" value="blog" {{if or (not .Format) (eq .Format "blog")}}checked="checked"{{end}} />
+						Blogo
+					</label>
+					<p>Datoj montriĝas. Lastaj afiŝoj listigitaj unue.</p>
+				</li>
+				<li>
+					<label class="option-text"><input type="radio" name="format" id="format-novel" value="novel" {{if eq .Format "novel"}}checked="checked"{{end}} />
+						Novelo
+					</label>
+					<p>Datoj ne montriĝas. Malnovaj afiŝoj unue.</p>
+				</li>
+				<li>
+					<label class="option-text"><input type="radio" name="format" id="format-notebook" value="notebook" {{if eq .Format "notebook"}}checked="checked"{{end}} />
+						Notlibro
+					</label>
+					<p>Datoj ne montriĝas. Lastaj afiŝoj unue.</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="option">
+		<h2>Tekstmontrado</h2>
+		<div class="section">
+			<p class="explain">Adapti kiel simpla teksto montriĝas en via blogo.</p>
+			<ul style="list-style:none">
+				<li>
+					<label class="option-text disabled"><input type="checkbox" name="markdown" checked="checked" disabled />
+						Markdown
+					</label>
+				</li>
+				<li>
+					<label><input type="checkbox" name="mathjax" {{if .RenderMathJax}}checked="checked"{{end}} />
+						MathJax
+					</label>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="option">
+		<h2>Alternativa CSS</h2>
+		<div class="section">
+			<textarea id="css-editor" class="section codable" name="style_sheet">{{.StyleSheet}}</textarea>
+			<p class="explain">Vidu nian gvidilon pri <a href="https://guides.write.as/customizing/#custom-css">adaptado</a>.</p>
+		</div>
+	</div>
+
+	<div class="option" style="text-align: center; margin-top: 4em;">
+		<input type="submit" id="save-changes" value="Konservi ŝanĝojn" />
+		<p><a href="{{if .SingleUser}}/{{else}}/{{.Alias}}/{{end}}">Vidi blogon</a></p>
+		{{if ne .Alias .Username}}<p><a class="danger" href="#modal-delete" onclick="promptDelete();">Forviŝi blogon...</a></p>{{end}}
+	</div>
+</div>
+</form>
+</div>
+
+		<div id="modal-delete" class="modal">
+			<h2>Ĉu vi certas pri forigado de ĉi tiu blogo?</h2>
+			<div class="body short">
+				<p style="text-align:left">Ĉi tio por ĉiam forigos <strong>{{.DisplayTitle}}</strong> ({{.FriendlyHost}}/{{.Alias}}) el la interreto. Ajna afiŝo en ĉi tiu blogo konserviĝos kaj estos malneto (trovebla en via paĝo de <a href="/me/posts/">Malnetoj</a>).</p>
+				<p>Se vi certas pri forigado de ĉi tiu blogo, enigu ĝian nomon en la malsupra kesto kaj premu <strong>Forviŝi</strong>.</p>
+
+				<ul id="delete-errors" class="errors"></ul>
+
+				<input id="confirm-text" placeholder="{{.Alias}}" type="text" class="boxy" style="margin-top: 0.5em;" />
+				<div style="text-align:right; margin-top: 1em;">
+					<a id="cancel-delete" style="margin-right:2em" href="#">Nuligi</a>
+					<button id="btn-delete" class="danger" onclick="deleteBlog(); return false;">Forviŝi</button>
+				</div>
+			</div>
+		</div>
+
+<script src="/js/h.js"></script>
+<script src="/js/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+// Begin shared modal code
+function showModal(id) {
+	document.getElementById('overlay').style.display = 'block';
+	document.getElementById('modal-'+id).style.display = 'block';
+}
+
+var closeModals = function(e) {
+	e.preventDefault();
+	document.getElementById('overlay').style.display = 'none';
+	var modals = document.querySelectorAll('.modal');
+	for (var i=0; i<modals.length; i++) {
+		modals[i].style.display = 'none'; 
+	}
+};
+H.getEl('overlay').on('click', closeModals);
+H.getEl('cancel-delete').on('click', closeModals);
+// end
+var deleteBlog = function(e) {
+	if (document.getElementById('confirm-text').value != '{{.Alias}}') {
+		document.getElementById('delete-errors').innerHTML = '<li class="urgent">Enigu <strong>{{.Alias}}</strong> en la kesto malsupre.</li>';
+		return;
+	}
+	// Clear errors
+	document.getElementById('delete-errors').innerHTML = '';
+	document.getElementById('btn-delete').innerHTML = 'Forviŝas...';
+
+	var http = new XMLHttpRequest();
+	var url = "/api/collections/{{.Alias}}?web=1";
+	http.open("DELETE", url, true);
+	http.setRequestHeader("Content-type", "application/json");
+	http.onreadystatechange = function() {
+		if (http.readyState == 4) {
+			if (http.status == 204) {
+				window.location = '/me/c/';
+			} else {
+				var data = JSON.parse(http.responseText);
+				document.getElementById('delete-errors').innerHTML = '<li class="urgent">'+data.error_msg+'</li>';
+				document.getElementById('btn-delete').innerHTML = 'Forviŝi';
+			}
+		}
+	};
+	http.send(null);
+};
+
+function createHidden(theForm, key, value) {
+    var input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = key;
+    input.value = value;
+    theForm.appendChild(input);
+}
+function disableSubmit() {
+	var $form = document.forms['customize-form'];
+	createHidden($form, 'style_sheet', cssEditor.getSession().getValue());
+	var $btn = document.getElementById("save-changes");
+	$btn.value = "Saving changes...";
+	$btn.disabled = true;
+	return true;
+}
+function promptDelete() {
+	showModal("delete");
+}
+
+var $fediDomain = document.getElementById('fedi-domain');
+var $fediCustomDomain = document.getElementById('fedi-custom-domain');
+var $customDomain = document.getElementById('domain-alias');
+var $customHandleEnv = document.getElementById('custom-handle-env');
+var $normalHandleEnv = document.getElementById('normal-handle-env');
+
+var opt = {
+	showLineNumbers: false,
+	showPrintMargin: 0,
+};
+var theme = "ace/theme/chrome";
+var cssEditor = ace.edit("css-editor");
+cssEditor.setTheme(theme);
+cssEditor.session.setMode("ace/mode/css");
+cssEditor.setOptions(opt);
+</script>
+
+{{template "footer" .}}
+{{end}}

@@ -42,75 +42,75 @@ p.docs {
 
 	{{if .Message}}<p>{{.Message}}</p>{{end}}
 
-	<h2>On this page</h2>
+	<h2>En ĉi tiu paĝo</h2>
 	<ul class="pagenav">
-		<li><a href="#config">Configuration</a></li>
-		<li><a href="#monitor">Application monitor</a></li>
+		<li><a href="#config">Konfiguroj</a></li>
+		<li><a href="#monitor">Monitorado de la aplikaĵo</a></li>
 	</ul>
 
-	<h2>Resources</h2>
+	<h2>Rimedoj</h2>
 	<ul class="pagenav">
-		<li><a href="https://writefreely.org/docs/{{.OfficialVersion}}/admin">Admin Guide</a></li>
+		<li><a href="https://writefreely.org/docs/{{.OfficialVersion}}/admin">Gvidilo por administrantoj</a></li>
 	</ul>
 
 	<hr />
 
-	<h2><a name="config"></a>App Configuration</h2>
-	<p class="docs">Read more in the <a href="https://writefreely.org/docs/{{.OfficialVersion}}/admin/config">configuration docs</a>.</p>
+	<h2><a name="config"></a>Konfiguroj de la aplikaĵo</h2>
+	<p class="docs">Legu pli en la <a href="https://writefreely.org/docs/{{.OfficialVersion}}/admin/config">konfiguraj dokumentoj</a>.</p>
 
 	{{if .ConfigMessage}}<p class="success" style="text-align: center">{{.ConfigMessage}}</p>{{end}}
 
 	<form action="/admin/update/config" method="post">
 	<div class="ui attached table segment">
 		<dl class="dl-horizontal admin-dl-horizontal">
-			<dt{{if .Config.SingleUser}} class="invisible"{{end}}>Site Name</dt>
+			<dt{{if .Config.SingleUser}} class="invisible"{{end}}>Reteja nomo</dt>
 			<dd{{if .Config.SingleUser}} class="invisible"{{end}}><input type="text" name="site_name" id="site_name" class="inline" value="{{.Config.SiteName}}" style="width: 14em;" /></dd>
-			<dt{{if .Config.SingleUser}} class="invisible"{{end}}>Site Description</dt>
+			<dt{{if .Config.SingleUser}} class="invisible"{{end}}>Reteja priskribo</dt>
 			<dd{{if .Config.SingleUser}} class="invisible"{{end}}><input type="text" name="site_desc" id="site_desc" class="inline" value="{{.Config.SiteDesc}}" style="width: 14em;" /></dd>
-			<dt>Host</dt>
+			<dt>Gastigejo</dt>
 			<dd>{{.Config.Host}}</dd>
-			<dt>User Mode</dt>
-			<dd>{{if .Config.SingleUser}}Single user{{else}}Multiple users{{end}}</dd>
-			<dt{{if .Config.SingleUser}} class="invisible"{{end}}>Landing Page</dt>
+			<dt>Uzantomodo</dt>
+			<dd>{{if .Config.SingleUser}}Unu uzanto{{else}}Pluraj uzantoj{{end}}</dd>
+			<dt{{if .Config.SingleUser}} class="invisible"{{end}}>Alvenpaĝo</dt>
 			<dd{{if .Config.SingleUser}} class="invisible"{{end}}><input type="text" name="landing" id="landing" class="inline" value="{{.Config.Landing}}" style="width: 14em;" /></dd>
-			<dt{{if .Config.SingleUser}} class="invisible"{{end}}><label for="open_registration">Open Registrations</label></dt>
+			<dt{{if .Config.SingleUser}} class="invisible"{{end}}><label for="open_registration">Malferma registriĝo</label></dt>
 			<dd{{if .Config.SingleUser}} class="invisible"{{end}}><input type="checkbox" name="open_registration" id="open_registration" {{if .Config.OpenRegistration}}checked="checked"{{end}} /></dd>
-			<dt><label for="min_username_len">Minimum Username Length</label></dt>
+			<dt><label for="min_username_len">Minimuma uzantnoma longeco</label></dt>
 			<dd><input type="number" name="min_username_len" id="min_username_len" class="inline" min="1" max="100" value="{{.Config.MinUsernameLen}}" /></dd>
-			<dt{{if .Config.SingleUser}} class="invisible"{{end}}><label for="max_blogs">Maximum Blogs per User</label></dt>
+			<dt{{if .Config.SingleUser}} class="invisible"{{end}}><label for="max_blogs">Maximuma kvanto da blogoj laŭ uzanto</label></dt>
 			<dd{{if .Config.SingleUser}} class="invisible"{{end}}><input type="number" name="max_blogs" id="max_blogs" class="inline" min="1" value="{{.Config.MaxBlogs}}" /></dd>
-			<dt><label for="federation">Federation</label></dt>
+			<dt><label for="federation">Federaciado</label></dt>
 			<dd><input type="checkbox" name="federation" id="federation" {{if .Config.Federation}}checked="checked"{{end}} /></dd>
-			<dt><label for="public_stats">Public Stats</label></dt>
+			<dt><label for="public_stats">Publikaj statistikoj</label></dt>
 			<dd><input type="checkbox" name="public_stats" id="public_stats" {{if .Config.PublicStats}}checked="checked"{{end}} /></dd>
-			<dt><label for="private">Private Instance</label></dt>
+			<dt><label for="private">Privata servilo</label></dt>
 			<dd><input type="checkbox" name="private" id="private" {{if .Config.Private}}checked="checked"{{end}} /></dd>
-			<dt{{if .Config.SingleUser}} class="invisible"{{end}}><label for="local_timeline">Local Timeline</label></dt>
+			<dt{{if .Config.SingleUser}} class="invisible"{{end}}><label for="local_timeline">Loka templinio</label></dt>
 			<dd{{if .Config.SingleUser}} class="invisible"{{end}}><input type="checkbox" name="local_timeline" id="local_timeline" {{if .Config.LocalTimeline}}checked="checked"{{end}} /></dd>
-			<dt{{if .Config.SingleUser}} class="invisible"{{end}}><label for="user_invites">Allow sending invitations by</label></dt>
+			<dt{{if .Config.SingleUser}} class="invisible"{{end}}><label for="user_invites">Kiun permesi sendi invitojn</label></dt>
 			<dd{{if .Config.SingleUser}} class="invisible"{{end}}>
 				<select name="user_invites" id="user_invites">
-					<option value="none" {{if eq .Config.UserInvites ""}}selected="selected"{{end}}>No one</option>
-					<option value="user" {{if eq .Config.UserInvites "user"}}selected="selected"{{end}}>Users</option>
-					<option value="admin" {{if eq .Config.UserInvites "admin"}}selected="selected"{{end}}>Admins</option>
+					<option value="none" {{if eq .Config.UserInvites ""}}selected="selected"{{end}}>Neniun</option>
+					<option value="user" {{if eq .Config.UserInvites "user"}}selected="selected"{{end}}>Uzantojn</option>
+					<option value="admin" {{if eq .Config.UserInvites "admin"}}selected="selected"{{end}}>Administrantojn</option>
 				</select>
 			</dd>
-			<dt{{if .Config.SingleUser}} class="invisible"{{end}}><label for="default_visibility">Default blog visibility</label></dt>
+			<dt{{if .Config.SingleUser}} class="invisible"{{end}}><label for="default_visibility">Implicita blogvidebleco</label></dt>
 			<dd{{if .Config.SingleUser}} class="invisible"{{end}}>
 				<select name="default_visibility" id="default_visibility">
-					<option value="unlisted" {{if eq .Config.DefaultVisibility "unlisted"}}selected="selected"{{end}}>Unlisted</option>
-					<option value="public" {{if eq .Config.DefaultVisibility "public"}}selected="selected"{{end}}>Public</option>
-					<option value="private" {{if eq .Config.DefaultVisibility "private"}}selected="selected"{{end}}>Private</option>
+					<option value="unlisted" {{if eq .Config.DefaultVisibility "unlisted"}}selected="selected"{{end}}>Nelistigita</option>
+					<option value="public" {{if eq .Config.DefaultVisibility "public"}}selected="selected"{{end}}>Publika</option>
+					<option value="private" {{if eq .Config.DefaultVisibility "private"}}selected="selected"{{end}}>Privata</option>
 				</select>
 			</dd>
 		</dl>
-		<input type="submit" value="Save Configuration" />
+		<input type="submit" value="Konservi konfigurojn" />
 	</div>
 	</form>
 
 	<hr />
 
-	<h2><a name="monitor"></a>Application</h2>
+	<h2><a name="monitor"></a>Aplikaĵo</h2>
 
 	<div class="ui attached table segment">
 		<dl class="dl-horizontal admin-dl-horizontal">

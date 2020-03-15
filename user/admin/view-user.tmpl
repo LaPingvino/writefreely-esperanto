@@ -38,62 +38,62 @@ input.copy-text {
 
 	<h2 id="posts-header">{{.User.Username}}</h2>
 	{{if .NewPassword}}<div class="alert success">
-		<p>This user's password has been reset to:</p>
+		<p>La pasvorto de ĉi tiu uzanto estas restarigita al:</p>
 		<p><input type="text" class="copy-text" value="{{.NewPassword}}" onfocus="if (this.select) this.select(); else this.setSelectionRange(0, this.value.length);" readonly /></p>
-		<p>They can use this new password to log in to their account. <strong>This will only be shown once</strong>, so be sure to copy it and send it to them now.</p>
-		{{if .ClearEmail}}<p>Their email address is: <a href="mailto:{{.ClearEmail}}">{{.ClearEmail}}</a></p>{{end}}
+		<p>Eblas per tiu ĉi nova pasvorto ensaluti en la konto de ĉi tiu uzanto. <strong>Ĝi nur unufoje montriĝos</strong>, do atentu ke vi nun kopiu ĝin kaj sendu al la uzanto.</p>
+		{{if .ClearEmail}}<p>La retpoŝtadreso estas: <a href="mailto:{{.ClearEmail}}">{{.ClearEmail}}</a></p>{{end}}
 		</div>
 	{{end}}
 	<table class="classy export">
 		<tr>
-			<th>No.</th>
+			<th>Num.</th>
 			<td>{{.User.ID}}</td>
 		</tr>
 		<tr>
-			<th>Type</th>
+			<th>Tipo</th>
 			<td>{{if .User.IsAdmin}}Admin{{else}}User{{end}}</td>
 		</tr>
 		<tr>
-			<th>Username</th>
+			<th>Uzantnomo</th>
 			<td>{{.User.Username}}</td>
 		</tr>
 		<tr>
-			<th>Joined</th>
-			<td>{{.User.CreatedFriendly}}</td>
+			<th>Aliĝis</th>
+			<td>{{.User.Created}}</td>
 		</tr>
 		<tr>
-			<th>Total Posts</th>
+			<th>Tuta kvanto da afiŝoj</th>
 			<td>{{.TotalPosts}}</td>
 		</tr>
 		<tr>
-			<th>Last Post</th>
-			<td>{{if .LastPost}}{{.LastPost}}{{else}}Never{{end}}</td>
+			<th>Lasta afiŝo</th>
+			<td>{{if .LastPost}}{{.LastPost}}{{else}}Neniam{{end}}</td>
 		</tr>
 		<tr>
 			<form action="/admin/user/{{.User.Username}}/status" method="POST" {{if not .User.IsSilenced}}onsubmit="return confirmSilence()"{{end}}>
 				<a id="status"/>
-				<th>Status</th>
+				<th>Stato</th>
 				<td class="active-suspend">
 				{{if .User.IsSilenced}}
-					<p>Silenced</p>
-					<input type="submit" value="Unsilence"/>
+					<p>Silentigita</p>
+					<input type="submit" value="Malsilentigi"/>
 				{{else}}
-					<p>Active</p>
-					<input class="danger" type="submit" value="Silence" {{if .User.IsAdmin}}disabled{{end}}/>
+					<p>Aktiva</p>
+					<input class="danger" type="submit" value="Silentigi" {{if .User.IsAdmin}}disabled{{end}}/>
 				{{end}}
 				</td>
 			</form>
 		</tr>
 		<tr>
-			<th>Password</th>
+			<th>Pasvorto</th>
 			<td>
 				{{if ne .Username .User.Username}}
 				<form id="reset-form" action="/admin/user/{{.User.Username}}/passphrase" method="post" autocomplete="false">
 					<input type="hidden" name="user" value="{{.User.ID}}"/>
-					<button type="submit">Reset</button>
+					<button type="submit">Restarigi</button>
 				</form>
 				{{else}}
-				<a href="/me/settings" title="Go to reset password page">Change your password</a>
+				<a href="/me/settings" title="Iri al la paĝo por restarigi pasvorton">Ŝanĝi vian pasvorton</a>
 				{{end}}
 			</td>
 		</tr>
@@ -105,36 +105,36 @@ input.copy-text {
 	<h3><a href="/{{.Alias}}/">{{.Title}}</a></h3>
 	<table class="classy export">
 		<tr>
-			<th>Alias</th>
+			<th>Kromnomo</th>
 			<td>{{.Alias}}</td>
 		</tr>
 		<tr>
-			<th>Title</th>
+			<th>Titolo</th>
 			<td>{{.Title}}</td>
 		</tr>
 		<tr>
-			<th>Description</th>
+			<th>Priskribo</th>
 			<td>{{.Description}}</td>
 		</tr>
 		<tr>
-			<th>Visibility</th>
+			<th>Videbleco</th>
 			<td>{{.FriendlyVisibility}}</td>
 		</tr>
 		<tr>
-			<th>Views</th>
+			<th>Vidoj</th>
 			<td>{{.Views}}</td>
 		</tr>
 		<tr>
-			<th>Posts</th>
+			<th>Afiŝoj</th>
 			<td>{{.TotalPosts}}</td>
 		</tr>
 		<tr>
-			<th>Last Post</th>
-			<td>{{if .LastPost}}{{.LastPost}}{{else}}Never{{end}}</td>
+			<th>Lasta afiŝo</th>
+			<td>{{if .LastPost}}{{.LastPost}}{{else}}Neniam{{end}}</td>
 		</tr>
 		{{if $.Config.Federation}}
 		<tr>
-			<th>Fediverse Followers</th>
+			<th>Federaciaj sekvantoj</th>
 			<td>{{.Followers}}</td>
 		</tr>
 		{{end}}
@@ -144,13 +144,13 @@ input.copy-text {
 
 <script type="text/javascript">
 function confirmSilence() {
-	return confirm("Silence this user? They'll still be able to log in and access their posts, but no one else will be able to see them anymore. You can reverse this decision at any time.");
+	return confirm("Ĉu silentigi ĉi tiun uzanton? Ankoraŭ eblas ensaluti kaj aliri la afiŝojn, sed neniu alia povos vidi plu la personon. Vi povas iam ajn malfari ĉi tiun decidon.");
 }
 
 	form = document.getElementById("reset-form");
 	form.addEventListener('submit', function(e) {
 		e.preventDefault();
-		agreed = confirm("Reset this user's password? This will generate a new temporary password that you'll need to share with them, and invalidate their old one.");
+		agreed = confirm("Ĉu restarigi la pasvorton de ĉi tiu uzanto? Ĉi tio kreos novan portempan pasvorton kiun vi devos konigi al la uzanto, kaj ĝi nevalidigos la malnovan.");
 		if (agreed === true) {
 			form.submit();
 		}

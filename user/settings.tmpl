@@ -10,26 +10,26 @@ h3 { font-weight: normal; }
 	{{if .Suspended}}
 		{{template "user-suspended"}}
 	{{end}}
-	<h2>{{if .IsLogOut}}Before you go...{{else}}Account Settings {{if .IsAdmin}}<a href="/admin">admin settings</a>{{end}}{{end}}</h2>
+	<h2>{{if .IsLogOut}}Antaŭ ol vi iros...{{else}}Kontaj konfiguroj {{if .IsAdmin}}<a href="/admin">administaj konfiguroj</a>{{end}}{{end}}</h2>
 	{{if .Flashes}}<ul class="errors">
 		{{range .Flashes}}<li class="urgent">{{.}}</li>{{end}}
 	</ul>{{end}}
 
 	{{ if .IsLogOut }}
 	<div class="alert info">
-		<p class="introduction">Please add an <strong>email address</strong> and/or <strong>passphrase</strong> so you can log in again later.</p>
+		<p class="introduction">Bonvolu aldoni <strong>retpoŝtadreson</strong> kaj/aŭ <strong>pasfrazon</strong> por ke vi povu reensaluti pli poste.</p>
 	</div>
 	{{ else }}
 	<div class="option">
-		<p>Change your account settings here.</p>
+		<p>Vi povas ŝanĝi viajn konto-informojn ĉi tie.</p>
 	</div>
 
 	<form method="post" action="/api/me/self" autocomplete="false">
 		<div class="option">
-			<h3>Username</h3>
+			<h3>Uzantnomo</h3>
 			<div class="section">
 				<input type="text" name="username" value="{{.Username}}" tabindex="1" />
-				<input type="submit" value="Update" style="margin-left: 1em;" />
+				<input type="submit" value="Ĝisdatigi" style="margin-left: 1em;" />
 			</div>
 		</div>
 	</form>
@@ -38,32 +38,32 @@ h3 { font-weight: normal; }
 	<form method="post" action="/api/me/self" autocomplete="false">
 		<input type="hidden" name="logout" value="{{.IsLogOut}}" />
 		<div class="option">
-			<h3>Passphrase</h3>
+			<h3>Pasfrazo</h3>
 			<div class="section">
-				{{if and (not .HasPass) (not .IsLogOut)}}<div class="alert info"><p>Add a passphrase to easily log in to your account.</p></div>{{end}}
-				{{if .HasPass}}<p>Current passphrase</p>
-				<input type="password" name="current-pass" placeholder="Current passphrase" tabindex="1" /> <input class="show" type="checkbox" id="show-cur-pass" /><label for="show-cur-pass"> Show</label>
-				<p>New passphrase</p>
+				{{if and (not .HasPass) (not .IsLogOut)}}<div class="alert info"><p>Aldonu pasfrazon por facile eniri vian konton.</p></div>{{end}}
+				{{if .HasPass}}<p>Nuna pasfrazo</p>
+				<input type="password" name="current-pass" placeholder="Nuna pasfrazo" tabindex="1" /> <input class="show" type="checkbox" id="show-cur-pass" /><label for="show-cur-pass"> Montri</label>
+				<p>Nova pasfrazo</p>
 				{{end}}
 				{{if .IsLogOut}}<input type="text" value="{{.Username}}" style="display:none" />{{end}}
-				<input type="password" name="new-pass" autocomplete="new-password" placeholder="New passphrase" tabindex="{{if .IsLogOut}}1{{else}}2{{end}}" /> <input class="show" type="checkbox" id="show-new-pass" /><label for="show-new-pass"> Show</label>
+				<input type="password" name="new-pass" autocomplete="new-password" placeholder="Nova pasfrazo" tabindex="{{if .IsLogOut}}1{{else}}2{{end}}" /> <input class="show" type="checkbox" id="show-new-pass" /><label for="show-new-pass"> Montri</label>
 			</div>
 		</div>
 
 		<div class="option">
 			<h3>Email</h3>
 			<div class="section">
-				{{if and (not .Email) (not .IsLogOut)}}<div class="alert info"><p>Add your email to get:</p>
+				{{if and (not .Email) (not .IsLogOut)}}<div class="alert info"><p>Aldonu vian retpoŝtadreson por ekhavi:</p>
 				<ul>
-					<li>No-passphrase login</li>
-					<li>Account recovery if you forget your passphrase</li>
+					<li>Senpasfrazan ensalutadon</li>
+					<li>Konto-rekuperadon se vi forgesis vian pasfrazon.</li>
 				</ul></div>{{end}}
 				<input type="email" name="email" style="letter-spacing: 1px" placeholder="Email address" value="{{.Email}}" size="40" tabindex="{{if .IsLogOut}}2{{else}}3{{end}}" />
 			</div>
 		</div>
 
 		<div class="option" style="text-align: center; margin-top: 4em;">
-			<input type="submit" value="Save changes" tabindex="4" />
+			<input type="submit" value="Konservi ŝanĝojn" tabindex="4" />
 		</div>
 	</form>
 </div>

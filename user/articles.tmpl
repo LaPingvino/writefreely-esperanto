@@ -10,35 +10,35 @@
 	{{template "user-suspended"}}
 {{end}}
 
-<h2 id="posts-header">drafts</h2>
+<h2 id="posts-header">malnetoj</h2>
 
 {{ if .AnonymousPosts }}<div class="atoms posts">
 	{{ range $el := .AnonymousPosts }}<div id="post-{{.ID}}" class="post">
 		<h3><a href="/{{if $.SingleUser}}d/{{end}}{{.ID}}" itemprop="url">{{.DisplayTitle}}</a></h3>
 		<h4>
 			<date datetime="{{.Created}}" pubdate itemprop="datePublished" content="{{.Created}}">{{.DisplayDate}}</date>
-			<a class="action" href="/{{if $.SingleUser}}d/{{end}}{{.ID}}/edit">edit</a>
-			<a class="delete action" href="/{{.ID}}" onclick="delPost(event, '{{.ID}}', true)">delete</a>
+			<a class="action" href="/{{if $.SingleUser}}d/{{end}}{{.ID}}/edit">redakti</a>
+			<a class="delete action" href="/{{.ID}}" onclick="delPost(event, '{{.ID}}', true)">forviŝi</a>
 			{{ if $.Collections }}
 			{{if gt (len $.Collections) 1}}<div class="action flat-select">
-				<select id="move-{{.ID}}" onchange="postActions.multiMove(this, '{{.ID}}', {{if $.SingleUser}}true{{else}}false{{end}})" title="Move this post to one of your blogs">
+				<select id="move-{{.ID}}" onchange="postActions.multiMove(this, '{{.ID}}', {{if $.SingleUser}}true{{else}}false{{end}})" title="Movi ĉi tiun afiŝon al unu el viaj blogoj">
 					<option style="display:none"></option>
 					{{range $.Collections}}<option value="{{.Alias}}">{{.DisplayTitle}}</option>{{end}}
 				</select>
-				<label for="move-{{.ID}}">move to...</label>
+				<label for="move-{{.ID}}">movi al...</label>
 				<img class="ic-18dp" src="/img/ic_down_arrow_dark@2x.png" />
 			</div>{{else}}
 			{{range $.Collections}}
-			<a class="action" href="/{{$el.ID}}" title="Publish this post to your blog '{{.DisplayTitle}}'" onclick="postActions.move(this, '{{$el.ID}}', '{{.Alias}}', {{if $.SingleUser}}true{{else}}false{{end}});return false">move to {{.DisplayTitle}}</a>
+			<a class="action" href="/{{$el.ID}}" title="Afiŝi ĉi tiun afiŝon en via blogo '{{.DisplayTitle}}'" onclick="postActions.move(this, '{{$el.ID}}', '{{.Alias}}', {{if $.SingleUser}}true{{else}}false{{end}});return false">movi al {{.DisplayTitle}}</a>
 			{{end}}
 			{{end}}
 			{{ end }}
 		</h4>
 		{{if .Summary}}<p>{{.Summary}}</p>{{end}}
 	</div>{{end}}
-</div>{{ else }}<div id="no-posts-published"><p>You haven't saved any drafts yet.</p>
-	<p>They'll show up here once you do. {{if not .SingleUser}}Find your blog posts from the <a href="/me/c/">Blogs</a> page.{{end}}</p>
-	<p class="text-cta"><a href="{{if .SingleUser}}/me/new{{else}}/{{end}}">Start writing</a></p></div>{{ end }}
+</div>{{ else }}<div id="no-posts-published"><p>Vi ankoraŭ konservis neniun malneton.</p>
+	<p>Post kiam vi ekkonservas malneton, ili aperos ĉi tie. {{if not .SingleUser}}Vi povas trovi viajn blogafiŝojn en la <a href="/me/c/">Blogoj</a>-paĝo.{{end}}</p>
+	<p class="text-cta"><a href="{{if .SingleUser}}/me/new{{else}}/{{end}}">Komenci verki</a></p></div>{{ end }}
 
 <div id="moving"></div>
 

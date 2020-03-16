@@ -10,7 +10,7 @@ h3 { font-weight: normal; }
 	{{if .Suspended}}
 		{{template "user-suspended"}}
 	{{end}}
-	<h2>{{if .IsLogOut}}Antaŭ ol vi iros...{{else}}Kontaj konfiguroj {{if .IsAdmin}}<a href="/admin">administaj konfiguroj</a>{{end}}{{end}}</h2>
+	<h2>{{if .IsLogOut}}Antaŭ ol vi iros...{{else}}Kontaj konfiguroj {{if .IsAdmin}}<a href="/admin">administraj konfiguroj</a>{{end}}{{end}}</h2>
 	{{if .Flashes}}<ul class="errors">
 		{{range .Flashes}}<li class="urgent">{{.}}</li>{{end}}
 	</ul>{{end}}

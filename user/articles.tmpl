@@ -6,13 +6,16 @@
 {{if .Flashes}}<ul class="errors">
 	{{range .Flashes}}<li class="urgent">{{.}}</li>{{end}}
 </ul>{{end}}
-{{if .Suspended}}
-	{{template "user-suspended"}}
+{{if .Silenced}}
+	{{template "user-silenced"}}
 {{end}}
 
-<h2 id="posts-header">malnetoj</h2>
+<h1 id="posts-header">Malnetoj</h1>
 
-{{ if .AnonymousPosts }}<div class="atoms posts">
+{{ if .AnonymousPosts }}
+	<p>These are your draft posts. You can share them individually (without a blog) or move them to your blog when you're ready.</p>
+
+	<div class="atoms posts">
 	{{ range $el := .AnonymousPosts }}<div id="post-{{.ID}}" class="post">
 		<h3><a href="/{{if $.SingleUser}}d/{{end}}{{.ID}}" itemprop="url">{{.DisplayTitle}}</a></h3>
 		<h4>
@@ -34,15 +37,16 @@
 			{{end}}
 			{{ end }}
 		</h4>
-		{{if .Summary}}<p>{{.Summary}}</p>{{end}}
+		{{if .Summary}}<p>{{.SummaryHTML}}</p>{{end}}
 	</div>{{end}}
-</div>{{ else }}<div id="no-posts-published"><p>Vi ankoraŭ konservis neniun malneton.</p>
-	<p>Post kiam vi ekkonservas malneton, ili aperos ĉi tie. {{if not .SingleUser}}Vi povas trovi viajn blogafiŝojn en la <a href="/me/c/">Blogoj</a>-paĝo.{{end}}</p>
-	<p class="text-cta"><a href="{{if .SingleUser}}/me/new{{else}}/{{end}}">Komenci verki</a></p></div>{{ end }}
+</div>{{ else }}<div id="no-posts-published">
+	<p>Viaj anonimaj kaj malnetaj afiŝoj montriĝos ĉi tie kiam vi publikigis kelkajn. Vi povos kunhavigi ilin unuope, sen blogo, aŭ movi ilin al blogo kiam vi pretas.</p>
+	{{if not .SingleUser}}<p>Alternative, vidu viajn blogojn kaj iliajn afiŝojn en via <a href="/me/c/">blogoj</a>-paĝo.</p>{{end}}
+	<p class="text-cta"><a href="{{if .SingleUser}}/me/new{{else}}/{{end}}">Komencu verki</a></p></div>{{ end }}
 
 <div id="moving"></div>
 
-<h2 id="unsynced-posts-header" style="display: none">unsynced posts</h2>
+<h2 id="unsynced-posts-header" style="display: none">nesinkronigitaj afiŝoj</h2>
 <div id="unsynced-posts-info" style="margin-top: 1em"></div>
 <div id="unsynced-posts" class="atoms"></div>
 

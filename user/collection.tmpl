@@ -8,8 +8,8 @@
 <div class="content-container snug">
 	<div id="overlay"></div>
 
-	{{if .Suspended}}
-		{{template "user-suspended"}}
+	{{if .Silenced}}
+		{{template "user-silenced"}}
 	{{end}}
 	<h2>Adapti {{.DisplayTitle}} <a href="{{if .SingleUser}}/{{else}}/{{.Alias}}/{{end}}">vidi blogon</a></h2>
 
